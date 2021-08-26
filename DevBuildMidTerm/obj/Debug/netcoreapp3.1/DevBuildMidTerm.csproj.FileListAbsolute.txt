@@ -1,0 +1,13 @@
+C:\Users\awatts4\source\repos\DevBuildMidTerm\DevBuildMidTerm\bin\Debug\netcoreapp3.1\DevBuildMidTerm.exe
+C:\Users\awatts4\source\repos\DevBuildMidTerm\DevBuildMidTerm\bin\Debug\netcoreapp3.1\DevBuildMidTerm.deps.json
+C:\Users\awatts4\source\repos\DevBuildMidTerm\DevBuildMidTerm\bin\Debug\netcoreapp3.1\DevBuildMidTerm.runtimeconfig.json
+C:\Users\awatts4\source\repos\DevBuildMidTerm\DevBuildMidTerm\bin\Debug\netcoreapp3.1\DevBuildMidTerm.runtimeconfig.dev.json
+C:\Users\awatts4\source\repos\DevBuildMidTerm\DevBuildMidTerm\bin\Debug\netcoreapp3.1\DevBuildMidTerm.dll
+C:\Users\awatts4\source\repos\DevBuildMidTerm\DevBuildMidTerm\bin\Debug\netcoreapp3.1\DevBuildMidTerm.pdb
+C:\Users\awatts4\source\repos\DevBuildMidTerm\DevBuildMidTerm\obj\Debug\netcoreapp3.1\DevBuildMidTerm.csproj.AssemblyReference.cache
+C:\Users\awatts4\source\repos\DevBuildMidTerm\DevBuildMidTerm\obj\Debug\netcoreapp3.1\DevBuildMidTerm.AssemblyInfoInputs.cache
+C:\Users\awatts4\source\repos\DevBuildMidTerm\DevBuildMidTerm\obj\Debug\netcoreapp3.1\DevBuildMidTerm.AssemblyInfo.cs
+C:\Users\awatts4\source\repos\DevBuildMidTerm\DevBuildMidTerm\obj\Debug\netcoreapp3.1\DevBuildMidTerm.csproj.CoreCompileInputs.cache
+C:\Users\awatts4\source\repos\DevBuildMidTerm\DevBuildMidTerm\obj\Debug\netcoreapp3.1\DevBuildMidTerm.dll
+C:\Users\awatts4\source\repos\DevBuildMidTerm\DevBuildMidTerm\obj\Debug\netcoreapp3.1\DevBuildMidTerm.pdb
+C:\Users\awatts4\source\repos\DevBuildMidTerm\DevBuildMidTerm\obj\Debug\netcoreapp3.1\DevBuildMidTerm.genruntimeconfig.cache
