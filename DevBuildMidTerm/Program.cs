@@ -3,13 +3,13 @@ using System.Collections.Generic;
 
 namespace DevBuildMidTerm
 {
-    class Movie
+    public class Movie
     {
         public string MovieName { get; set; }
         public string MainActor { get; set; }
         public string Genre { get; set; }
         public string Director { get; set; }
- 
+
         public Movie(string movieName, string mainActor, string genre, string director)
         {
             MovieName = movieName;
@@ -17,7 +17,7 @@ namespace DevBuildMidTerm
             Genre = genre;
             Director = director;
 
-        } 
+        }
 
 
         //toString
@@ -30,7 +30,7 @@ namespace DevBuildMidTerm
 
     }
 
-    class User
+    public class User
     {
         //FILTER BY MOVIE NAME, MAIN ACTOR, GENRE AND DIRECTOR
 
@@ -54,7 +54,7 @@ namespace DevBuildMidTerm
             return moviesFilteredByName;
 
 
-    }
+        }
 
         //FilterMovieByGenre
 
@@ -109,57 +109,92 @@ namespace DevBuildMidTerm
 
         }
 
-        
+
 
     }
 
-    class Admin : User
+    public class Admin : User
     {
 
 
-        //can add movie to the movie repo
-
-        //public static void AddMovie()
-        //{
+        List<Movie> newMovies = MoviesRepo.GetAllMovies();
 
 
-        //}
-        ////can edit a movie
-
-
-        // public static EditMovie()
-        // {
-
-
-        // }
-        //remove a movie
-
-        public static List<Movie> Delete(List<Movie> movies , string movieName)
+        public void AddMovieToList(Movie newMovieToADD)
         {
-            List<Movie> deleteAMovie = new List<Movie>();
+            newMovies.Add(newMovieToADD);
+        }
+
+     
+        public static void EditMovieActor(List<Movie> movies, string _MovieName, string updateActor)
+        {
             foreach (Movie item in movies)
             {
-                if (movieName == item.MovieName)
+                if (item.MovieName == _MovieName)
                 {
-                    deleteAMovie.Remove(item);
+                    item.MainActor = updateActor;
                 }
             }
 
-            return deleteAMovie;
+
         }
-    }
+
+
+        public static void EditMovieGenre(List<Movie> movies, string _MovieName, string updateGenre)
+        {
+            foreach (Movie item in movies)
+            {
+                if (item.MovieName == _MovieName)
+                {
+                    item.Genre = updateGenre;
+                }
+            }
+
+
+        }
+
+        public static void EditMovieDirector(List<Movie> movies, string _MovieName, string updateDirector)
+        {
+            foreach (Movie item in movies)
+            {
+                if (item.MovieName == _MovieName)
+                {
+                    item.Director = updateDirector;
+                }
+            }
+
+
+        }
+
+
+        public static void DeleteAMovie(List<Movie> movies, string movieToDelete)
+        {
+            for (int i = 0; i < movies.Count; i++)
+            {
+                if (movies[i].MovieName == movieToDelete)
+                {
+                    movies.Remove(movies[i]);
+                }
+            }
+
+        }
 
 
 
-    class MoviesRepo
-    {
 
-        public static List<MoviesRepo> Movies { get; }
 
-       public static List<Movie> GetAllMovies()
+
+
+
+        public class MoviesRepo
         {
 
-            List<Movie> movies = new List<Movie>
+            public static List<MoviesRepo> Movies { get; }
+
+            public static List<Movie> GetAllMovies()
+            {
+
+                List<Movie> movies = new List<Movie>
             {
                 new Movie("The Notebook", "Rachel McAdams", "Romance", "Nick Cassavetes"),
                 new Movie("Avatar", "Zach Tyler Eisen", "Action", "James Cameron"),
@@ -169,260 +204,318 @@ namespace DevBuildMidTerm
 
 
             };
-            
-            return movies;
+
+                return movies;
+
+            }
+
 
         }
 
 
-    }
-
-
-    class Program
-    {
-        static void Main(string[] args)
+        static bool Continue()
         {
-            Console.BackgroundColor = ConsoleColor.Black;
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.Clear();
-    
-            
-            List<Movie> movies = MoviesRepo.GetAllMovies();
-            Movie addNewMovie;
-
-
-            Console.WriteLine("Welcome to the MockBuster digital movie catalog!");
-            Console.WriteLine("Are you an Admin or User?: ");
-            
-            
-            //user response
-            string Resp = Console.ReadLine().ToLower();
-            Console.WriteLine();
-
-            if (Resp == "user")
+            while (true)
             {
-                Console.Clear();
-                Console.Write("Would you like to [F]ilter or  [V]iew records?: ");
-                string userSelection = Console.ReadLine().ToLower();
+                Console.WriteLine("Would you like to continue or quit? (continue/quit)");
+                string response = Console.ReadLine();
+                response = response.ToLower();
 
-                if (userSelection == "f")
+
+                if (response == "y" || response == "continue")
                 {
-                    Console.Write("Would you like to filter by Movie Name, Main Actor, Genre or Director?: ");
-                    string _Resp = Console.ReadLine().ToLower();
-
-                    if (_Resp == "movie name")
-                    {
-                        Console.Clear();
-                        Console.WriteLine("Please enter movie name: ");
-                        string MovieToSearch = Console.ReadLine();
-
-                        List<Movie> SearchedMovies = User.FilterMovieByName(movies, MovieToSearch);
-                        foreach (Movie item in SearchedMovies)
-                        {
-                            Console.WriteLine($"Movie found! Movie Name: {item.MovieName}, Main Actor: {item.MainActor}, Genre {item.Genre}, Director: {item.Director}");
-                        }
-
-                    }
-                    else if (_Resp == "main actor")
-                    {
-                        Console.Clear();
-                        Console.WriteLine("Please enter main actor name: ");
-                        string MovieToSearch = Console.ReadLine();
-
-                        List<Movie> SearchedMovies = User.FilterMovieByMainActor(movies, MovieToSearch);
-                        foreach (Movie item in SearchedMovies)
-                        {
-                            Console.WriteLine($"Movie found! Movie Name: {item.MovieName}, Main Actor: {item.MainActor}, Genre: {item.Genre}, Director: {item.Director}");
-                        }
-
-                    }
-                    else if (_Resp == "genre")
-                    {
-                        Console.Clear();
-                        Console.WriteLine("Please enter genre: ");
-                        string MovieToSearch = Console.ReadLine();
-
-
-                        List<Movie> SearchedMovies = User.FilterMovieByGenre(movies, MovieToSearch);
-                        foreach (Movie item in SearchedMovies)
-                        {
-                            Console.WriteLine($"Movie found! Movie Name: {item.MovieName}, Main Actor: {item.MainActor}, Genre: {item.Genre}, Director: {item.Director}");
-                        }
-                    }
-                    else if (_Resp == "director")
-                    {
-                        Console.Clear();
-                        Console.WriteLine("Please enter director name: ");
-                        string MovieToSearch = Console.ReadLine();
-
-
-                        List<Movie> SearchedMovies = User.FilterMovieByDirector(movies, MovieToSearch);
-                        foreach (Movie item in SearchedMovies)
-                        {
-                            Console.WriteLine($"Movie found! Movie Name: {item.MovieName}, Main Actor: {item.MainActor}, Genre: {item.Genre}, Director: {item.Director}");
-                        }
-                    }
-
-
+                    return true;
                 }
-                else if (userSelection == "v")
+                else if (response == "quit" || response == "no")
                 {
-                    Console.Clear();
-                    foreach (Movie item in movies)
-                    {
-                        Console.WriteLine(item);
-                    }
+                    return false;
                 }
-
-
-
-
-
-
-
+                else
+                {
+                    Console.WriteLine("Please enter continue or quit");
+                }
 
             }
-            else if (Resp == "admin")
+        }
+
+
+        class Program
+        {
+            static void Main(string[] args)
             {
-                Console.Clear();
-                Console.Write("Would you like to [F]ilter, [A]dd, [E]dit, [V]iew or [D]elete records?: ");
-                string userSelection = Console.ReadLine().ToLower();
-
-                if (userSelection == "f")
+                do
                 {
-                    Console.Write("Would you like to filter by Movie Name, Main Actor, Genre or Director?: ");
-                    
-                    string _Resp = Console.ReadLine().ToLower();
 
-                    if (_Resp == "movie name")
+
+
+                    List<Movie> movies = MoviesRepo.GetAllMovies();
+                    Movie addNewMovie;
+
+
+                    Console.WriteLine("Welcome to the MockBuster digital movie catalog!");
+                    Console.WriteLine("Are you an Admin or User?: ");
+
+
+                    //user response
+                    string Resp = Console.ReadLine().ToLower();
+                    Console.WriteLine();
+
+                    if (Resp == "user" | Resp == "User")
                     {
                         Console.Clear();
-                        Console.WriteLine("Please enter movie name: ");
-                        string MovieToSearch = Console.ReadLine();
+                        Console.Write("Would you like to [F]ilter or  [V]iew records?: ");
+                        string userSelection = Console.ReadLine().ToLower();
 
-                        List<Movie> SearchedMovies = User.FilterMovieByName(movies, MovieToSearch);
-                        foreach (Movie item in SearchedMovies)
+                        if (userSelection == "f")
                         {
-                            Console.WriteLine($"Movie found! Movie Name: {item.MovieName}, Main Actor: {item.MainActor}, Genre: {item.Genre}, Director: {item.Director}");
+                            Console.Write("Would you like to filter by Movie Name, Main Actor, Genre or Director?: ");
+                            string _Resp = Console.ReadLine().ToLower();
+
+                            if (_Resp == "movie name")
+                            {
+
+                                Console.WriteLine("Please enter movie name: ");
+                                string MovieToSearch = Console.ReadLine();
+
+                                List<Movie> SearchedMovies = User.FilterMovieByName(movies, MovieToSearch);
+                                foreach (Movie item in SearchedMovies)
+                                {
+                                    Console.WriteLine($"Movie found! Movie Name: {item.MovieName}, Main Actor: {item.MainActor}, Genre {item.Genre}, Director: {item.Director}");
+                                }
+
+                            }
+                            else if (_Resp == "main actor")
+                            {
+
+                                Console.WriteLine("Please enter main actor name: ");
+                                string MovieToSearch = Console.ReadLine();
+
+                                List<Movie> SearchedMovies = User.FilterMovieByMainActor(movies, MovieToSearch);
+                                foreach (Movie item in SearchedMovies)
+                                {
+                                    Console.WriteLine($"Movie found! Movie Name: {item.MovieName}, Main Actor: {item.MainActor}, Genre: {item.Genre}, Director: {item.Director}");
+                                }
+
+                            }
+                            else if (_Resp == "genre")
+                            {
+
+                                Console.WriteLine("Please enter genre: ");
+                                string MovieToSearch = Console.ReadLine();
+
+
+                                List<Movie> SearchedMovies = User.FilterMovieByGenre(movies, MovieToSearch);
+                                foreach (Movie item in SearchedMovies)
+                                {
+                                    Console.WriteLine($"Movie found! Movie Name: {item.MovieName}, Main Actor: {item.MainActor}, Genre: {item.Genre}, Director: {item.Director}");
+                                }
+                            }
+                            else if (_Resp == "director")
+                            {
+
+                                Console.WriteLine("Please enter director name: ");
+                                string MovieToSearch = Console.ReadLine();
+
+
+                                List<Movie> SearchedMovies = User.FilterMovieByDirector(movies, MovieToSearch);
+                                foreach (Movie item in SearchedMovies)
+                                {
+                                    Console.WriteLine($"Movie found! Movie Name: {item.MovieName}, Main Actor: {item.MainActor}, Genre: {item.Genre}, Director: {item.Director}");
+                                }
+                            }
+
+
+                        }
+                        else if (userSelection == "v")
+                        {
+
+                            foreach (Movie item in movies)
+                            {
+                                Console.WriteLine(item);
+                            }
                         }
 
+
+
+
+
+
+
+
                     }
-                    else if (_Resp == "main actor")
+                    else if (Resp == "admin" | Resp == "Admin")
                     {
                         Console.Clear();
-                        Console.WriteLine("Please enter main actor name: ");
-                        string MovieToSearch = Console.ReadLine();
+                        Console.Write("Would you like to [F]ilter, [A]dd, [E]dit, [V]iew or [D]elete records?: ");
+                        string userSelection = Console.ReadLine().ToLower();
 
-                        List<Movie> SearchedMovies = User.FilterMovieByMainActor(movies, MovieToSearch);
-                        foreach (Movie item in SearchedMovies)
+                        if (userSelection == "f")
                         {
-                            Console.WriteLine($"Movie found! Movie Name: {item.MovieName}, Main Actor: {item.MainActor}, Genre: {item.Genre}, Director: {item.Director}");
+                            Console.Write("Would you like to filter by Movie Name, Main Actor, Genre or Director?: ");
+
+                            string _Resp = Console.ReadLine().ToLower();
+
+                            if (_Resp == "movie name")
+                            {
+
+                                Console.WriteLine("Please enter movie name: ");
+                                string MovieToSearch = Console.ReadLine();
+
+                                List<Movie> SearchedMovies = User.FilterMovieByName(movies, MovieToSearch);
+                                foreach (Movie item in SearchedMovies)
+                                {
+                                    Console.WriteLine($"Movie found! Movie Name: {item.MovieName}, Main Actor: {item.MainActor}, Genre: {item.Genre}, Director: {item.Director}");
+                                }
+
+                            }
+                            else if (_Resp == "main actor")
+                            {
+
+                                Console.WriteLine("Please enter main actor name: ");
+                                string MovieToSearch = Console.ReadLine();
+
+                                List<Movie> SearchedMovies = User.FilterMovieByMainActor(movies, MovieToSearch);
+                                foreach (Movie item in SearchedMovies)
+                                {
+                                    Console.WriteLine($"Movie found! Movie Name: {item.MovieName}, Main Actor: {item.MainActor}, Genre: {item.Genre}, Director: {item.Director}");
+                                }
+
+
+
+
+
+                            }
+                            else if (_Resp == "genre")
+                            {
+
+                                Console.WriteLine("Please enter genre: ");
+                                string MovieToSearch = Console.ReadLine();
+
+
+                                List<Movie> SearchedMovies = User.FilterMovieByGenre(movies, MovieToSearch);
+                                foreach (Movie item in SearchedMovies)
+                                {
+                                    Console.WriteLine($"Movie found! Movie Name: {item.MovieName}, Main Actor: {item.MainActor}, Genre: {item.Genre}, Director: {item.Director}");
+                                }
+                            }
+                            else if (_Resp == "director")
+                            {
+
+                                Console.WriteLine("Please enter director name: ");
+                                string MovieToSearch = Console.ReadLine();
+
+
+                                List<Movie> SearchedMovies = User.FilterMovieByDirector(movies, MovieToSearch);
+                                foreach (Movie item in SearchedMovies)
+                                {
+                                    Console.WriteLine($"Movie found! Movie Name: {item.MovieName}, Main Actor: {item.MainActor}, Genre: {item.Genre}, Director: {item.Director}");
+                                }
+                            }
+
+
                         }
-
-
-
-
-
-                    }
-                    else if (_Resp == "genre")
-                    {
-                        Console.Clear();
-                        Console.WriteLine("Please enter genre: ");
-                        string MovieToSearch = Console.ReadLine();
-
-
-                        List<Movie> SearchedMovies = User.FilterMovieByGenre(movies, MovieToSearch);
-                        foreach (Movie item in SearchedMovies)
+                        else if (userSelection == "v")
                         {
-                            Console.WriteLine($"Movie found! Movie Name: {item.MovieName}, Main Actor: {item.MainActor}, Genre: {item.Genre}, Director: {item.Director}");
+
+                            foreach (Movie item in movies)
+                            {
+                                Console.WriteLine(item);
+                            }
                         }
-                    }
-                    else if (_Resp == "director")
-                    {
-                        Console.Clear();
-                        Console.WriteLine("Please enter director name: ");
-                        string MovieToSearch = Console.ReadLine();
-
-
-                        List<Movie> SearchedMovies = User.FilterMovieByDirector(movies, MovieToSearch);
-                        foreach (Movie item in SearchedMovies)
+                        else if (userSelection == "d")
                         {
-                            Console.WriteLine($"Movie found! Movie Name: {item.MovieName}, Main Actor: {item.MainActor}, Genre: {item.Genre}, Director: {item.Director}");
+
+                            Console.WriteLine("Please enter name of movie you wish to delete: ");
+                            string movieToDelete = Console.ReadLine();
+
+                            Admin.DeleteAMovie(movies, movieToDelete);
+                            Console.WriteLine($"{movieToDelete} has been deleted.");
+
+
                         }
-                    }
-
-
-                }
-                else if (userSelection == "v")
-                {
-                    Console.Clear();
-                    foreach (Movie item in movies)
-                    {
-                        Console.WriteLine(item);
-                    }
-                }
-                else if (userSelection == "d")
-                {
-                    Console.Clear();
-                    Console.WriteLine("Please enter name of movie you wish to delete: ");
-                    string MovieToDelete = Console.ReadLine();
-
-
-                    List<Movie> updatedMovies = Admin.Delete(movies, MovieToDelete);
-                    foreach (Movie item in updatedMovies)
-                    {
-                        if (MovieToDelete == item.MovieName)
+                        else if (userSelection == "e" | userSelection == "E")
                         {
-                            Console.WriteLine("The movie {MovieToDelete} has been deleted from the list.");
+                            Console.WriteLine("Please enter the name of the movie that you wish to edit: ");
+                            string _MovieName = Console.ReadLine();
+
+                            Console.WriteLine("What category would you like to edit (Main Actor, Genre or Director) : ");
+                            string response = Console.ReadLine().ToLower();
+
+                            if (response == "main actor")
+                            {
+                                Console.WriteLine("Enter name of main actor: ");
+                                string updateActor = Console.ReadLine();
+                                Admin.EditMovieActor(movies, _MovieName, updateActor);
+                                Console.WriteLine($"The main actor of {_MovieName} has been updated to {updateActor}.");
+                            }
+                            else if (response == "genre")
+                            {
+                                Console.WriteLine("Enter genre: ");
+                                string updateGenre = Console.ReadLine();
+                                Admin.EditMovieActor(movies, _MovieName, updateGenre);
+                                Console.WriteLine($"The main actor of {_MovieName} has been updated to {updateGenre}.");
+                            }
+                            else if (response == "director")
+                            {
+                                Console.WriteLine("Enter name of director: ");
+                                string updateDirector = Console.ReadLine();
+                                Admin.EditMovieActor(movies, _MovieName, updateDirector);
+                                Console.WriteLine($"The main actor of {_MovieName} has been updated to {updateDirector}.");
+                            }
+                            else
+                            {
+                                Console.WriteLine("Invalid response entered.");
+                            }
+
                         }
-                        else
+                        else if (userSelection == "a")
                         {
-                            Console.WriteLine( ($"{MovieToDelete} was not found in the list"));
+
+                            //temp code - this will be moved to a method in Admin
+                            Console.Write("Would you like to add a movie to the list? (y/n): ");
+                            string userResp = Console.ReadLine();
+
+                            if (userResp == "y" | userResp == "yes" | userResp == "Y")
+                            {
+                                Console.WriteLine("Please enter movie name: ");
+                                string selectMovieName = Console.ReadLine().ToLower();
+                                Console.WriteLine("Please enter name of main actor: ");
+                                string selectMainActor = Console.ReadLine().ToLower();
+                                Console.WriteLine("Please enter genre: ");
+                                string selectGenre = Console.ReadLine().ToLower();
+                                Console.WriteLine("Please enter director name: ");
+                                string selectDirector = Console.ReadLine().ToLower();
+
+
+                                addNewMovie = new Movie(selectMovieName, selectMainActor, selectGenre, selectDirector);
+                                movies.Add(addNewMovie);
+
+                                Console.WriteLine();
+                                Console.WriteLine("Here's the updated list!");
+
+                                foreach (Movie item in movies)
+                                {
+                                    Console.WriteLine(item);
+                                }
+
+
+                            }
+
+                            else
+                            {
+                                Console.WriteLine("Invalid Response entered. Please enter 'y' or 'n'");
+                            }
+
+
+
+
                         }
-                       
                     }
 
 
 
-                }
-                else if (userSelection == "a" )
-                {
-                    Console.Clear();
-                    //temp code - this will be moved to a method in Admin
-                    Console.Write("Would you like to add a movie to the list? ");
-                    string userResp = Console.ReadLine();
-
-                    if (userResp == "y" | userResp == "yes" | userResp == "Y")
-                    {
-                        Console.WriteLine("Please enter movie name: ");
-                        string selectMovieName = Console.ReadLine().ToLower();
-                        Console.WriteLine("Please enter name of main actor: ");
-                        string selectMainActor = Console.ReadLine().ToLower();
-                        Console.WriteLine("Please enter genre: ");
-                        string selectGenre = Console.ReadLine().ToLower();
-                        Console.WriteLine("Please enter director name: ");
-                        string selectDirector = Console.ReadLine().ToLower();
-
-
-                        addNewMovie = new Movie(selectMovieName, selectMainActor, selectGenre, selectDirector);
-                        movies.Add(addNewMovie);
-
-                        Console.WriteLine("Here's the updated list!");
-
-                        foreach (Movie item in movies)
-                        {
-                            Console.WriteLine(item);
-                        }
-
-
-                    }
-
-
-                }
+                } while (Continue());
             }
-
-            
-
         }
     }
 }
